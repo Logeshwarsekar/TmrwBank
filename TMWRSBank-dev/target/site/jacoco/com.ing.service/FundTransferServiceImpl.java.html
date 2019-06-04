@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FundTransferServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UserTransactionHistory</a> &gt; <a href="index.source.html" class="el_package">com.ing.service</a> &gt; <span class="el_source">FundTransferServiceImpl.java</span></div><h1>FundTransferServiceImpl.java</h1><pre class="source lang-java linenums">package com.ing.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ing.dao.TransactionDao;
+import com.ing.dao.UserDao;
+import com.ing.entity.Account;
+import com.ing.entity.Transaction;
+
+@Service
+@Transactional
+<span class="fc" id="L17">public class FundTransferServiceImpl implements FundTransferService{</span>
+
+	@Autowired
+	UserDao userRepo;
+	@Autowired
+	TransactionDao repository;
+	@Override
+	public String saveTransaction(Transaction transaction) {
+		
+<span class="nc" id="L26">		Account account =userRepo.findAccountById(transaction.getUserId());</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">		 if(account.getBalance()&lt;transaction.getAmount()) {</span>
+<span class="nc" id="L28">			 return &quot;Insufficient Balance&quot;;</span>
+		 }
+		 else {
+<span class="nc" id="L31">			account.setBalance(account.getBalance()-transaction.getAmount());</span>
+<span class="nc" id="L32">			userRepo.save(account); </span>
+<span class="nc" id="L33">			repository.save(transaction);</span>
+<span class="nc" id="L34">		  return &quot;Saved Successfully&quot;;</span>
+		 }
+		
+		
+	}
+	
+	public List&lt;Transaction&gt; getTransactions(int id) {
+	
+<span class="fc" id="L42">		return repository.findTransactionsById(id);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

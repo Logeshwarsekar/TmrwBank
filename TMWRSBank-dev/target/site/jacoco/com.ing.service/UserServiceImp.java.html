@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UserTransactionHistory</a> &gt; <a href="index.source.html" class="el_package">com.ing.service</a> &gt; <span class="el_source">UserServiceImp.java</span></div><h1>UserServiceImp.java</h1><pre class="source lang-java linenums">package com.ing.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ing.dao.UserDao;
+import com.ing.entity.Account;
+import com.ing.request.SaveAccountRequest;
+import com.ing.response.SaveAccountResponse;
+import com.ing.response.UpdateAccountRequest;
+import com.ing.utils.UtilConstants;
+
+@Service
+@Transactional
+<span class="fc" id="L19">public class UserServiceImp implements UserService {</span>
+	@Autowired
+	UserDao repo;
+
+	@Override
+	public SaveAccountResponse saveAccount(SaveAccountRequest request) {
+<span class="fc" id="L25">		SaveAccountResponse response = new  SaveAccountResponse();</span>
+<span class="fc" id="L26">		Account account = new Account();</span>
+<span class="fc" id="L27">		account.setAccountType(request.getAccType());</span>
+<span class="fc" id="L28">		account.setBalance(UtilConstants.DEFAULT_ACC_BALANCE);</span>
+<span class="fc" id="L29">		account.setEmailId(request.getEmail_id());</span>
+<span class="fc" id="L30">		account.setFirstName(request.getfName());</span>
+<span class="fc" id="L31">		account.setLastName(request.getlName());</span>
+<span class="fc" id="L32">		account.setMobile(request.getMobile());</span>
+<span class="fc" id="L33">		account.setPan(request.getPanCard_no());</span>
+<span class="fc" id="L34">		account.setPassword(request.getPassword());</span>
+<span class="fc" id="L35">		account.setStatus(UtilConstants.DEFAULT_STATUS);</span>
+<span class="fc" id="L36">		account.setUserName(request.getUserName());</span>
+<span class="fc" id="L37">		repo.save(account);</span>
+<span class="fc" id="L38">		return response;</span>
+	}
+
+	@Override
+	public SaveAccountResponse updateAccount(UpdateAccountRequest request) {
+<span class="fc" id="L43">		SaveAccountResponse response = new  SaveAccountResponse();</span>
+<span class="fc" id="L44">		repo.updateAccount(request.getUserId(), request.getStatus());</span>
+<span class="fc" id="L45">		return response;</span>
+	}
+
+	//@Override
+	 public List&lt;Account&gt; findAll() {
+<span class="fc" id="L50">	  return repo.findAll();</span>
+	 }
+	 
+	 public Account getAccountById(int id) {
+			
+<span class="fc" id="L55">			return repo.findAccountById(id);</span>
+		}
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>
